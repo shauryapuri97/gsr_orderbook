@@ -2,49 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './styles.css'
 
 export const OrderBook = ({ selectedProduct }) => {
-    
-    const [book, setBook ] = useState(null);
 
-    const updateBook = (changes) => {
-        let tempBook = {...book}
-
-        changes.map(change=> {
-            if(change[0] == 'buy') {
-                if(change[2] == 0) {
-                    tempBook && tempBook.bids.forEach((e,i)=>{
-                        if(e[0] == change[1]) {
-                            tempBook.bids.splice(i, 1)
-                        }
-                    })
-                } else {
-                    tempBook && tempBook.bids.forEach((e,i)=>{
-                        if(e[0] == change[1]) {
-                            tempBook.bids[i] = [change[1], change[2]]
-                        }
-                    })
-                }
-            } else if(change[0] == 'sell'){
-                if(change[2] == 0) {
-                    tempBook && tempBook.asks.forEach((e,i)=>{
-                        if(e[0] == change[1]) {
-                            tempBook.asks.splice(i, 1)
-                        }
-                    })
-                } else {
-                    tempBook && tempBook.asks.forEach((e,i)=>{
-                        if(e[0] == change[1]) {
-                            tempBook.asks[i] = [change[1], change[2]]
-                        }
-                    })
-                }
-            }
-        })
-
-        return tempBook;
-    }
+    const [asks, setAsks ] = useState({});
+    const [bids, setBids ] = useState({});
 
     useEffect(()=>{
-        console.log(selectedProduct);
         if (selectedProduct !== null && selectedProduct !== undefined ) {
             const product = [];
             product.push(selectedProduct.value);
@@ -58,14 +20,35 @@ export const OrderBook = ({ selectedProduct }) => {
             ws.onopen = () => {
                 ws.send(JSON.stringify(subscribe));
             };
+
+            let tempAsk;
+            let tempBid;
+
             ws.onmessage = (event) => {
                 const response = JSON.parse(event.data);
                 if(response.type === 'snapshot') {
-                    setBook(response);
-                } else if(response.type === 'l2update') {
-                    const newBook = updateBook(response.changes);
-                    setBook(newBook);
-                }
+                    tempAsk = {};
+                    tempBid = {};
+
+                    response.asks.forEach(([price, amount]) => (tempAsk[price] = parseFloat(amount)));
+                    response.bids.forEach(([price, amount]) => (tempBid[price] = parseFloat(amount)));
+
+                    setAsks(tempAsk);
+                    setBids(tempBid);
+                    
+                } else if(response.type === 'l2update') response.changes.forEach(change => {
+                    const [action, price, amount] = change;
+                    tempBid = bids;
+                    tempAsk = asks;
+                    const obj = action == "buy" ? tempBid : tempAsk;
+                    const parsed = parseFloat(amount);
+
+                    if(parsed) obj[price] = parsed;
+                    else delete obj[price];
+
+                    setAsks(tempAsk);
+                    setBids(tempBid);
+                });
             };
             ws.onclose = () => {
                 ws.close();
@@ -76,12 +59,6 @@ export const OrderBook = ({ selectedProduct }) => {
             };
         }
     },[selectedProduct]);
-
-    useEffect(()=>{
-        console.log('sorting')
-        book && book.bids.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
-        && book.asks.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
-    },[book])
 
     const orderHead = (title) => (
         <thead>
@@ -103,15 +80,19 @@ export const OrderBook = ({ selectedProduct }) => {
         </tr>
     ): null);
 
+    const objToArr = (obj) => {
+        return Object.entries(obj).map(([pr, am]) => [parseFloat(pr), am]).sort((a, b) => b[0] - a[0]);
+    }
+
     return (
         <div className="OrderBook-Panel">
                 <table id="bidtable">
                     {orderHead('Bids')}
-                    <tbody>{orderRows(book!== null ? book.bids : null)}</tbody>
+                    <tbody>{orderRows(objToArr(bids))}</tbody>
                 </table>
                 <table id="asktable">
                     {orderHead('Asks')}
-                    <tbody>{orderRows(book!== null ? book.asks : null)}</tbody>
+                    <tbody>{orderRows(objToArr(asks))}</tbody>
                 </table>
         </div>
     );
