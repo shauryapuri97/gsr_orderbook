@@ -38,8 +38,8 @@ export const OrderBook = ({ selectedProduct }) => {
                     
                 } else if(response.type === 'l2update') response.changes.forEach(change => {
                     const [action, price, amount] = change;
-                    tempBid = bids;
-                    tempAsk = asks;
+                    tempBid = {...bids};
+                    tempAsk = {...asks};
                     const obj = action == "buy" ? tempBid : tempAsk;
                     const parsed = parseFloat(amount);
 
