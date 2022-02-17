@@ -6,6 +6,7 @@ import './App.css';
 function App() {
 
   const [products, setProducts ] = useState([]);
+  const [options, setOptions ] = useState([]);
 
   useEffect(()=>{
     const headers = {'Accept': 'application/json'}
@@ -20,7 +21,6 @@ function App() {
   },[])
 
   useEffect(()=>{
-    //Populate the search field
   },[products])
 
   return (
