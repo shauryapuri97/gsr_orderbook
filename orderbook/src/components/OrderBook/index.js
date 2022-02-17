@@ -26,9 +26,9 @@ export function OrderBook ({ selectedProduct }) {
 
             ws.onmessage = (event) => {
                 const response = JSON.parse(event.data);
+                let tempAsk = {};
+                let tempBid = {};
                 if(response.type === 'snapshot') {
-                    let tempAsk = {};
-                    let tempBid = {};
 
                     response.asks.forEach(([price, amount]) => (tempAsk[price] = parseFloat(amount)));
                     response.bids.forEach(([price, amount]) => (tempBid[price] = parseFloat(amount)));
@@ -41,17 +41,20 @@ export function OrderBook ({ selectedProduct }) {
                     const parsed = parseFloat(amount);
 
                     if (action == "buy") {
-                        if(parsed) {
-                            bids[price] = parsed;
-                        } else {
-                            delete bids[price]
+                        if(parsed)
+                            setBids(bids => {return { ...bids, [price]: parsed }})
+                        else {
+                            const newBids = {...bids}
+                            delete newBids[price]
+                            setAsks(newBids);
                         }
                     } else {
-                        if(parsed) {
-                            asks[price] = parsed;
-                        }
+                        if(parsed)
+                            setAsks(asks => {return { ...asks, [price]: parsed }})
                         else {
-                            delete asks[price]
+                            const newAsks = {...asks}
+                            delete newAsks[price]
+                            setAsks(newAsks);
                         }
                     }
                 });
