@@ -4,7 +4,44 @@ import './styles.css'
 export const OrderBook = ({ selectedProduct }) => {
     
     const [book, setBook ] = useState(null);
-    const [changes, setChanges ] = useState(null);
+
+    const updateBook = (changes) => {
+        let tempBook = {...book}
+
+        changes.map(change=> {
+            if(change[0] == 'buy') {
+                if(change[2] == 0) {
+                    tempBook && tempBook.bids.forEach((e,i)=>{
+                        if(e[0] == change[1]) {
+                            tempBook.bids.splice(i, 1)
+                        }
+                    })
+                } else {
+                    tempBook && tempBook.bids.forEach((e,i)=>{
+                        if(e[0] == change[1]) {
+                            tempBook.bids[i] = [change[1], change[2]]
+                        }
+                    })
+                }
+            } else if(change[0] == 'sell'){
+                if(change[2] == 0) {
+                    tempBook && tempBook.asks.forEach((e,i)=>{
+                        if(e[0] == change[1]) {
+                            tempBook.asks.splice(i, 1)
+                        }
+                    })
+                } else {
+                    tempBook && tempBook.asks.forEach((e,i)=>{
+                        if(e[0] == change[1]) {
+                            tempBook.asks[i] = [change[1], change[2]]
+                        }
+                    })
+                }
+            }
+        })
+
+        return tempBook;
+    }
 
     useEffect(()=>{
         console.log(selectedProduct);
@@ -26,7 +63,8 @@ export const OrderBook = ({ selectedProduct }) => {
                 if(response.type === 'snapshot') {
                     setBook(response);
                 } else if(response.type === 'l2update') {
-                    setChanges(response.changes)
+                    const newBook = updateBook(response.changes);
+                    setBook(newBook);
                 }
             };
             ws.onclose = () => {
@@ -39,44 +77,11 @@ export const OrderBook = ({ selectedProduct }) => {
         }
     },[selectedProduct]);
 
-    useEffect(() => {
-        if(book !== null) {
-            let tempBook = {...book}
-            changes.map(change=> {
-                if(change[0] == 'buy') {
-                    if(change[2] == 0) {
-                        tempBook && tempBook.bids.forEach((e,i)=>{
-                            if(e[0] == change[1]) {
-                                tempBook.bids.splice(i, 1)
-                            }
-                        })
-                    } else {
-                        tempBook && tempBook.bids.forEach((e,i)=>{
-                            if(e[0] == change[1]) {
-                                tempBook.bids[i] = [change[1], change[2]]
-                            }
-                        })
-                    }
-                } else if(change[0] == 'sell'){
-                    if(change[2] == 0) {
-                        tempBook && tempBook.asks.forEach((e,i)=>{
-                            if(e[0] == change[1]) {
-                                tempBook.asks.splice(i, 1)
-                            }
-                        })
-                    } else {
-                        tempBook && tempBook.asks.forEach((e,i)=>{
-                            if(e[0] == change[1]) {
-                                tempBook.asks[i] = [change[1], change[2]]
-                            }
-                        })
-                    }
-                }
-            })
-
-            setBook(tempBook)
-        }
-    }, [changes]);
+    useEffect(()=>{
+        console.log('sorting')
+        book && book.bids.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
+        && book.asks.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
+    },[book])
 
     const orderHead = (title) => (
         <thead>
@@ -91,8 +96,7 @@ export const OrderBook = ({ selectedProduct }) => {
     );
     
     const orderRows = (arr) =>
-        arr && arr.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])) &&
-        arr.map((item, index) => index < 10 ? (
+        arr && arr.map((item, index) => index < 10 ? (
         <tr key={index}>
             <td> {item[1]} </td>
             <td> {item[0]} </td>
