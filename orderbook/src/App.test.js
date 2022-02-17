@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App, { handleChange } from './App';
-import MemoziedOrderBook, { objToArr } from './components/OrderBook'
+import App from './App';
 
 test('Should show header', () => {
   render(<App />)
