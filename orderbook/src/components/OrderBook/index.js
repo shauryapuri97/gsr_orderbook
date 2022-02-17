@@ -4,7 +4,6 @@ import './styles.css'
 export const OrderBook = ({ selectedProduct }) => {
     
     const [book, setBook ] = useState(null);
-    const [tempBook, setTempBook ] = useState(null);
     const [changes, setChanges ] = useState(null);
 
     useEffect(()=>{
