@@ -29,7 +29,7 @@ function App() {
         <h2>GSR Order Book</h2>
       </div>
       <div className="App-Body">
-        <TradingPanel />
+        <TradingPanel products={products} />
         <OrderBook />
       </div>
     </div>
