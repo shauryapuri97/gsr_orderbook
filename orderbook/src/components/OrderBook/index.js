@@ -4,6 +4,7 @@ import './styles.css'
 export const OrderBook = ({ selectedProduct }) => {
     
     const [book, setBook ] = useState(null);
+    const [tempBook, setTempBook ] = useState(null);
     const [changes, setChanges ] = useState(null);
 
     useEffect(()=>{
@@ -41,39 +42,40 @@ export const OrderBook = ({ selectedProduct }) => {
 
     useEffect(() => {
         if(book !== null) {
-            const tempBook = book;
+            let tempBook = {...book}
             changes.map(change=> {
-                if(change[0] === 'buy') {
+                if(change[0] == 'buy') {
                     if(change[2] == 0) {
-                        console.log('splicing')
-                        tempBook.bids.forEach((e,i)=>{
-                            if(e[0] === change[1])
+                        tempBook && tempBook.bids.forEach((e,i)=>{
+                            if(e[0] == change[1]) {
                                 tempBook.bids.splice(i, 1)
+                            }
                         })
                     } else {
-                        console.log('changing')
-                        tempBook.bids.forEach((e,i)=>{
-                            if(e[0] === change[1])
+                        tempBook && tempBook.bids.forEach((e,i)=>{
+                            if(e[0] == change[1]) {
                                 tempBook.bids[i] = [change[1], change[2]]
+                            }
                         })
                     }
-                } else if(change[0] === 'sell'){
-                    if(change[2] === 0) {
-                        console.log('splicing')
-                        tempBook.asks.forEach((e,i)=>{
-                            if(e[0] === change[1])
+                } else if(change[0] == 'sell'){
+                    if(change[2] == 0) {
+                        tempBook && tempBook.asks.forEach((e,i)=>{
+                            if(e[0] == change[1]) {
                                 tempBook.asks.splice(i, 1)
+                            }
                         })
                     } else {
-                        console.log('changing')
-                        tempBook.asks.forEach((e,i)=>{
-                            if(e[0] === change[1])
+                        tempBook && tempBook.asks.forEach((e,i)=>{
+                            if(e[0] == change[1]) {
                                 tempBook.asks[i] = [change[1], change[2]]
+                            }
                         })
                     }
                 }
             })
-            setBook(tempBook);
+
+            setBook(tempBook)
         }
     }, [changes]);
 
