@@ -1,5 +1,21 @@
 .OrderBook-Panel {
     display: flex;
+    flex-direction: row;
     flex: 1 2 auto;
     margin: 2rem;
+    justify-content: center;
+}
+
+table, th, td {
+    border-bottom: 1px solid;
+    border-collapse: collapse;
+}
+
+table {
+    width: 100%;
+    border: 1px solid;
+}
+
+td {
+    text-align: center;
 }
