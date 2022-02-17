@@ -23,7 +23,10 @@ export const TradingPanel = ({ selectedProduct, options, handleChange }) => {
             <p>Select a Product</p>
             <Select value={selectedProduct} options={options} styles={colourStyles} onChange={handleChange} />
           </div>
-          <div className="TradingChart-Container">Coming Soon...</div>
+          <div className="TradingChart-Container">
+              <h3>Trading Chart</h3>
+              <p>Coming Soon...</p>
+          </div>
         </div>
     );
 }
