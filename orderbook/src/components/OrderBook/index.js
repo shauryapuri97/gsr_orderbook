@@ -8,6 +8,9 @@ export function OrderBook ({ selectedProduct }) {
 
     useEffect(()=>{
         if (selectedProduct !== null && selectedProduct !== undefined ) {
+            setAsks({});
+            setBids({});
+
             const product = [];
             product.push(selectedProduct.value);
             const subscribe = {
@@ -21,14 +24,11 @@ export function OrderBook ({ selectedProduct }) {
                 ws.send(JSON.stringify(subscribe));
             };
 
-            let tempAsk;
-            let tempBid;
-
             ws.onmessage = (event) => {
                 const response = JSON.parse(event.data);
                 if(response.type === 'snapshot') {
-                    tempAsk = {};
-                    tempBid = {};
+                    let tempAsk = {};
+                    let tempBid = {};
 
                     response.asks.forEach(([price, amount]) => (tempAsk[price] = parseFloat(amount)));
                     response.bids.forEach(([price, amount]) => (tempBid[price] = parseFloat(amount)));
@@ -38,16 +38,22 @@ export function OrderBook ({ selectedProduct }) {
                     
                 } else if(response.type === 'l2update') response.changes.forEach(change => {
                     const [action, price, amount] = change;
-                    tempBid = {...bids};
-                    tempAsk = {...asks};
-                    const obj = action == "buy" ? tempBid : tempAsk;
                     const parsed = parseFloat(amount);
 
-                    if(parsed) obj[price] = parsed;
-                    else delete obj[price];
-
-                    setAsks(tempAsk);
-                    setBids(tempBid);
+                    if (action == "buy") {
+                        if(parsed) {
+                            bids[price] = parsed;
+                        } else {
+                            delete bids[price]
+                        }
+                    } else {
+                        if(parsed) {
+                            asks[price] = parsed;
+                        }
+                        else {
+                            delete asks[price]
+                        }
+                    }
                 });
             };
             ws.onclose = () => {
