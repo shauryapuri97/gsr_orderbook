@@ -1,38 +1,54 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100%;
+  width: 100%;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #2f3640;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-Header {
+  display: flex;
+  justify-content: flex-start;
+  min-height: 8vh;
+  min-width: 98vw;
+  margin: 2rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App-Body {
+  display: flex;
+  flex-direction: row;
+  min-height: 83vh;
+  min-width: 100vw;
+}
+
+.Trading-Panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  margin: 2rem;
+}
+
+.Product-Search-Container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1 3 auto;
+}
+
+.TradingChart-Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 3 1 auto;
+  background-color: #353b48;
+  
+}
+
+.OrderBook-Panel {
+  display: flex;
+  flex: 1 0 auto;
+  margin: 2rem;
 }
