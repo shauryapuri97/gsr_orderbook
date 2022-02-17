@@ -16,3 +16,10 @@ Finally, we run the following commands to run the project:
 
 ### `npm install`
 ### `npm start`
+
+The project should open in your default browser.
+
+## Testing
+
+Use the following command to run the test script:
+### `npm test`
