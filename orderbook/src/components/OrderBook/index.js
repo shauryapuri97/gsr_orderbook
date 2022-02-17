@@ -100,11 +100,11 @@ export const OrderBook = ({ selectedProduct }) => {
 
     return (
         <div className="OrderBook-Panel">
-                <table>
+                <table id="bidtable">
                     {orderHead('Bids')}
                     <tbody>{orderRows(book!== null ? book.bids : null)}</tbody>
                 </table>
-                <table>
+                <table id="asktable">
                     {orderHead('Asks')}
                     <tbody>{orderRows(book!== null ? book.asks : null)}</tbody>
                 </table>

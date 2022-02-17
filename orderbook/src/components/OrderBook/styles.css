@@ -19,3 +19,11 @@ table {
 td {
     text-align: center;
 }
+
+#bidtable {
+    background-color: #6ab04c;
+}
+
+#asktable {
+    background-color: #eb4d4b;
+}
