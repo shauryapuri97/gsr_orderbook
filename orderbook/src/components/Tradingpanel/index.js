@@ -15,13 +15,13 @@ const colourStyles = {
     dropdownIndicator: styles => ({ ...styles, color: '#fff' }),
 };
 
-export const TradingPanel = ({ options }) => {
+export const TradingPanel = ({ selectedProduct, options, handleChange }) => {
 
     return (
         <div className="Trading-Panel">
           <div className="Product-Search-Container">
             <p>Select a Product</p>
-            <Select options={options} styles={colourStyles} />
+            <Select value={selectedProduct} options={options} styles={colourStyles} onChange={handleChange} />
           </div>
           <div className="TradingChart-Container">Coming Soon...</div>
         </div>

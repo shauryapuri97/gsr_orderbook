@@ -7,6 +7,7 @@ function App() {
 
   const [products, setProducts ] = useState([]);
   const [options, setOptions ] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(()=>{
     const headers = {'Accept': 'application/json'}
@@ -35,14 +36,22 @@ function App() {
     })
   },[products])
 
+  useEffect(()=> {
+    setSelectedProduct(options[0]);
+  },[options]);
+
+  const handleChange = (e) => {
+    setSelectedProduct(e);
+  }
+
   return (
     <div className="App">
       <div className="App-Header">
         <h1>GSR Crypto Trading</h1>
       </div>
       <div className="App-Body">
-        <TradingPanel options={options}/>
-        <OrderBook />
+        <TradingPanel selectedProduct={selectedProduct} options={options} handleChange={handleChange} />
+        <OrderBook selectedProduct={selectedProduct} />
       </div>
     </div>
   );
