@@ -1,6 +1,8 @@
 # GSR OrderBook
 
-This project was written by Shaurya Puri as part of the interviewing assessment for GSR.
+This project was written by [Shaurya Puri](www.shauryapuri.com) as part of the interviewing assessment for GSR.
+
+![UI_Screenshot](https://imgur.com/YpeQXDj.png)
 
 ## How to run the project ?
 
