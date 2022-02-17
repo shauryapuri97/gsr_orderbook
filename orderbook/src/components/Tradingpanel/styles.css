@@ -1,0 +1,22 @@
+.Trading-Panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    margin: 2rem;
+}
+  
+.Product-Search-Container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 3 auto;
+}
+
+.TradingChart-Container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 3 1 auto;
+    background-color: #353b48;
+}

@@ -1,4 +1,5 @@
-import logo from './logo.svg';
+import { TradingPanel } from './components/Tradingpanel';
+import { OrderBook } from './components/OrderBook';
 import './App.css';
 
 function App() {
@@ -8,11 +9,8 @@ function App() {
         <h2>GSR Order Book</h2>
       </div>
       <div className="App-Body">
-        <div className="Trading-Panel">
-          <div className="Product-Search-Container">Search Product</div>
-          <div className="TradingChart-Container">Coming Soon...</div>
-        </div>
-        <div className="OrderBook-Panel">Order Book</div>
+        <TradingPanel />
+        <OrderBook />
       </div>
     </div>
   );
