@@ -21,15 +21,27 @@ function App() {
   },[])
 
   useEffect(()=>{
+    products !== [] && products.map((product)=> {
+      if(options && options.some(option => option.label == product.id)) {
+        //Do Nothing
+      } else {
+        setOptions(prevOptions => {
+          return [
+            ...prevOptions,
+            { value: product.id, label: product.id }
+          ]
+        })
+      }
+    })
   },[products])
 
   return (
     <div className="App">
       <div className="App-Header">
-        <h2>GSR Order Book</h2>
+        <h1>GSR Crypto Trading</h1>
       </div>
       <div className="App-Body">
-        <TradingPanel products={products} />
+        <TradingPanel options={options}/>
         <OrderBook />
       </div>
     </div>

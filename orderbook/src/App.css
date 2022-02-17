@@ -14,6 +14,7 @@
   min-height: 8vh;
   min-width: 98vw;
   margin: 2rem;
+  border-bottom: 2px solid white;
 }
 
 .App-Body {
