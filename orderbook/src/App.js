@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TradingPanel } from './components/Tradingpanel';
-import { OrderBook } from './components/OrderBook';
+import { MemoziedOrderBook } from './components/OrderBook';
 import './App.css';
 
 function App() {
@@ -51,7 +51,7 @@ function App() {
       </div>
       <div className="App-Body">
         <TradingPanel selectedProduct={selectedProduct} options={options} handleChange={handleChange} />
-        <OrderBook selectedProduct={selectedProduct} />
+        <MemoziedOrderBook selectedProduct={selectedProduct} />
       </div>
     </div>
   );

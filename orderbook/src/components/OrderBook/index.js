@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css'
 
-export const OrderBook = ({ selectedProduct }) => {
+export function OrderBook ({ selectedProduct }) {
 
     const [asks, setAsks ] = useState({});
     const [bids, setBids ] = useState({});
@@ -97,3 +97,5 @@ export const OrderBook = ({ selectedProduct }) => {
         </div>
     );
 }
+
+export const MemoziedOrderBook = React.memo(OrderBook);
