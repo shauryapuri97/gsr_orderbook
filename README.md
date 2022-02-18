@@ -2,7 +2,7 @@
 
 This project was written by [Shaurya Puri](www.shauryapuri.com) as part of the interviewing assessment for GSR.
 
-![UI_Screenshot](https://imgur.com/YpeQXDj.png)
+![UI_Screenshot](app-recording.gif)
 
 ## How to run the project ?
 
