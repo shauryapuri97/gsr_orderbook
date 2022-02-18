@@ -46,7 +46,7 @@ export function OrderBook ({ selectedProduct }) {
                         else {
                             const newBids = {...bids}
                             delete newBids[price]
-                            setAsks(newBids);
+                            setBids(newBids);
                         }
                     } else {
                         if(parsed)
