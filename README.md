@@ -1,6 +1,6 @@
-# GSR OrderBook
+# Crypto OrderBook
 
-This project was written by [Shaurya Puri](www.shauryapuri.com) as part of the interviewing assessment for GSR.
+This is a simple orderbook dashboard that uses the Coinbase API to setup a web socket conenction of streaming asset orderbook info and maintains the top 10 rows in a table. Potential improvements could be using Material UI Data Grid or a similar more powerful grid.
 
 ![UI_Screenshot](app-recording.gif)
 
